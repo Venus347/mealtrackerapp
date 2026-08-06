@@ -11,3 +11,57 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model User {
+  uuid      String   @id @default(uuid())
+  username  String   @unique
+  firstName String   @map("first_name")
+  lastName  String   @map("last_name")
+
+  meals     Meal[]
+  info      UserInfo?
+
+  @@map("user")
+}
+
+model UserInfo {
+  uuid              String @id
+  age               Int
+  height            Float
+  weight            Float
+  sex               String
+  bmi               Float
+  activityFrequency String @map("activity_frequency")
+  activityType      String @map("activity_type")
+  fitnessGoal       String @map("fitness_goal")
+
+  user User @relation(fields: [uuid], references: [uuid], onDelete: Cascade)
+
+  @@map("user_info")
+}
+
+model Meal {
+  mealId    String   @id @default(uuid()) @map("meal_id")
+  uuid      String
+  timestamp DateTime @default(now())
+
+  user  User       @relation(fields: [uuid], references: [uuid], onDelete: Cascade)
+  items MealItem[]
+
+  @@map("meals")
+}
+
+model MealItem {
+  id         Int    @id @default(autoincrement())
+  mealId     String @map("meal_id")
+  protein    Float
+  carbs      Float
+  sugar      Float
+  fat        Float
+  energyKcal Float  @map("energy_kcal")
+  portion    String
+
+  meal Meal @relation(fields: [mealId], references: [mealId], onDelete: Cascade)
+
+  @@map("meal_items")
+}
