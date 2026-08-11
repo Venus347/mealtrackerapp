@@ -1,8 +1,8 @@
-import express from 'express';
+import express, { type Request, type Response } from 'express';
 
 const router = express.Router();
 
-router.get('/day-meals', (_req, res) => {
+router.get('/day-meals', (_req: Request, res: Response) => {
   res.json({
     meals: [
       { title: 'Breakfast', description: 'Greek yogurt, berries, and granola' },
