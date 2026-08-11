@@ -19,6 +19,7 @@ NutriBloom is a full-stack diet planning application that creates personalized m
 
 
 ## Prisma Schema Disclosure
+### Branch Disclosure: `ramanpreet`
 
 ### What I created
 
@@ -58,6 +59,7 @@ NutriBloom is a full-stack diet planning application that creates personalized m
 ---
 
 ## Dummy Seed Data Development & Implementation Details
+### Branch Disclosure: `ramanpreet`
 
 ### Database Synchronization & Seeding Implementation
 * **Schema Alignment:** Synchronized `schema.prisma` with the live PostgreSQL database structure (`meals` and `meal_items` tables) using Prisma introspection (`db pull`) to resolve schema drift.
@@ -66,6 +68,23 @@ NutriBloom is a full-stack diet planning application that creates personalized m
   * Updated generated client imports to resolve from `../generated/prisma/client`.
   * Corrected payload fields to map directly to schema column names: `meal_type`, `total_calories`, and `food_name`.
   * Built relational batch seeding to generate 200 meals across a 90-day window with associated nested meal items (macronutrients, quantities, and calories).
+
+---
+
+### Display any day's meals
+### Branch Disclosure: `ramanpreet`
+
+**Work Done:**
+* Implemented daily meals tracking and meal entry flow.
+* Built backend endpoints and database support for meals, meal items, and user nutrition details.
+* Added frontend components/pages for viewing and logging meals by date.
+* Connected client-side state and data fetching to backend API routes.
+
+**AI Usage Disclosure:**
+* Used AI assistance to draft and review Prisma schema designs and relations.
+* Used AI for code structuring, file naming conventions, and documentation support.
+* Core integration, logic debugging, and final implementations were reviewed and verified manually.
+
 
 ---
 
