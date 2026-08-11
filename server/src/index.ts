@@ -1,10 +1,14 @@
-import express from "express";
+import type { Request, Response } from "express";
+import dayMealsRouter from './dayMeals.js';
 
+const express = await import("express") as any;
 const app = express();
+const json = express.json;
 
-app.use(express.json());
+app.use(json());
+app.use(dayMealsRouter);
 
-app.get("/", (req: express.Request, res: express.Response) => {
+app.get("/", (req: Request, res: Response) => {
   res.send("Diet API is running!");
 });
 
