@@ -1,0 +1,7 @@
+{
+  "name": "nutribloom",
+  "private": true,
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  }
+}
