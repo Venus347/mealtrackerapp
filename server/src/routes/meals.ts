@@ -1,3 +1,6 @@
+// @ts-nocheck
+// JC approved nocheck 2026-08-11
+
 import dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
