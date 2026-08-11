@@ -18,7 +18,46 @@ NutriBloom is a full-stack diet planning application that creates personalized m
 # RAMANPREET WORK
 
 
-## Development & Implementation Details
+## Prisma Schema Disclosure
+
+### What I created
+
+* **Configured Prisma Client & Datasource:**
+* Generator: `provider = "prisma-client"`, `output = "../generated/prisma"`
+* Datasource: `provider = "postgresql"`
+
+
+* **Defined Models & Enums:**
+* `MealType` (Enum: `BREAKFAST`, `LUNCH`, `DINNER`, `SNACK`)
+* `Meal`
+* `MealItem`
+
+
+* **Implemented Relationships & Constraints:**
+* `Meal` has many `MealItem` (1 : Many)
+* `MealItem` belongs to `Meal` with `onDelete: Cascade` (ensuring cascading deletion of items when a meal is removed)
+
+
+* **Field Mappings (`@map` / `@@map`):**
+* `Meal` table → `meals` (`mealType` → `meal_type`, `totalCalories` → `total_calories`, `createdAt` → `created_at`)
+* `MealItem` table → `meal_items` (`mealId` → `meal_id`, `foodName` → `food_name`)
+
+
+
+### AI usage disclosure
+
+* I used generative AI assistance to draft, refactor, and review this schema design.
+* Reconciling the initial database design with the final NutriBloom project specification.
+* Restructuring models to drop deprecated user/BMI entities and implement the `Meal` / `MealItem` relational schema.
+* Configuring PostgreSQL enums, cascading deletes, and snake_case column mappings.
+* Formulating step-by-step CLI migration workflows (`prisma migrate dev`).
+
+
+> This schema serves as the PostgreSQL persistence layer for NutriBloom, supporting meal logging, nutritional breakdown tracking (calories, protein, carbs, fat), and cascading meal deletions.
+
+---
+
+## Dummy Seed Data Development & Implementation Details
 
 ### Database Synchronization & Seeding Implementation
 * **Schema Alignment:** Synchronized `schema.prisma` with the live PostgreSQL database structure (`meals` and `meal_items` tables) using Prisma introspection (`db pull`) to resolve schema drift.
