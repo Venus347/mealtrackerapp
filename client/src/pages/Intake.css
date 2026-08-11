@@ -1,0 +1,51 @@
+.form-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.form-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+.section-header {
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+}
+
+.submit-button {
+    margin-top: 24px;
+    --background-hover: #43a047;
+    --border-radius: 12px;
+    height: 48px;
+    font-weight: 600;
+}
+
+.height-row {
+    display: flex;
+    gap: 12px;
+}
+
+.height-row ion-item {
+    flex: 1;
+}
+
+ion-list {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+
+ion-radio-group ion-item {
+    --padding-top: 8px;
+    --padding-bottom: 8px;
+}
+
+ion-input,ion-select {
+    --border-radius: 10px;
+    --padding-start: 10px;
+}
