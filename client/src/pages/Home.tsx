@@ -3,17 +3,19 @@ import {
   IonCard,
   IonCardContent,
   IonText,
-   IonContent, 
-   IonHeader,
-    IonPage, 
-    IonTitle, 
-    IonToolbar }
-     from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/react';
+import { useHistory } from 'react-router-dom';
 import './Home.css';
-import healthyFood from "../assets/healthy-food.jpg";
+import healthyFood from '../assets/healthy-food.jpg';
 
 const Home: React.FC = () => {
+  const history = useHistory();
+
   return (
     <IonPage>
       <IonHeader>
@@ -64,32 +66,12 @@ const Home: React.FC = () => {
                   <p>Carbs</p>
                 </div>
 
-                 <div className="nutrition-item">
-                  <h3>40g</h3>
-                  <p>Fat</p>
-
-                 </div>
-
-            </div>
-
-            {/*Buttons */}
-            <IonButton
-            expand="block"
-            color="success"
-            routerLink="/add-meal"
-            >
-              + Add Meal
-            
+            <IonButton expand="block" color="success" onClick={() => history.push('/intake')}>
+              Start Assessment
             </IonButton>
 
-            <IonButton
-             expand="block" 
-                      
-             color="success"
-              fill="outline"
-              routerLink="/meal.history"
-              >
-                View Meal History
+            <IonButton expand="block" color="success" onClick={() => history.push('/day-meals')}>
+              My Day Meals
             </IonButton>
 
           </IonCardContent>
