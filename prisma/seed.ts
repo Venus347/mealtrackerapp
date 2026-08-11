@@ -1,56 +1,62 @@
 // prisma/seed.ts
-import { PrismaClient, MealType } from "../generated/prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
-import { faker } from "@faker-js/faker";
+import { PrismaClient } from '../generated/prisma/client';
+import { faker } from '@faker-js/faker';
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
-const prisma = new PrismaClient({ adapter });
+const prisma = new PrismaClient();
 
-const MEAL_TYPES = Object.values(MealType); // [BREAKFAST, LUNCH, DINNER, SNACK]
-
-const FOODS = [
-  "Grilled chicken breast", "Brown rice", "Steamed broccoli", "Salmon fillet",
-  "Greek yogurt", "Mixed berries", "Almonds", "Avocado toast", "Scrambled eggs",
-  "Oatmeal", "Quinoa salad", "Turkey sandwich", "Protein shake", "Sweet potato",
-  "Spinach salad", "Grilled shrimp", "Black beans", "Whole wheat pasta",
-  "Cottage cheese", "Banana", "Peanut butter", "Roasted vegetables",
-];
-
-const NUM_MEALS = 200;
+function calculateBMI(weightKg: number, heightCm: number): number {
+  const heightM = heightCm / 100;
+  return Number((weightKg / (heightM * heightM)).toFixed(2));
+}
 
 async function main() {
-  console.log(`Seeding ${NUM_MEALS} meals...`);
+  console.log('Seeding dummy data...');
 
-  for (let i = 0; i < NUM_MEALS; i++) {
-    const itemCount = faker.number.int({ min: 1, max: 4 });
+  const USER_COUNT = 5;
+  const mealTypes = ['BREAKFAST', 'LUNCH', 'DINNER', 'SNACK'] as const;
 
-    const items = Array.from({ length: itemCount }, () => {
-      const calories = faker.number.int({ min: 80, max: 700 });
+  for (let i = 0; i < USER_COUNT; i++) {
+    const gender = faker.helpers.arrayElement(['MALE', 'FEMALE']);
+    const firstName = faker.person.firstName(gender === 'MALE' ? 'male' : 'female');
+    const lastName = faker.person.lastName();
+    const height = faker.number.int({ min: 155, max: 190 });
+    const baseWeight = faker.number.float({ min: 55, max: 95, fractionDigits: 1 });
+
+    const bmiRecordsData = Array.from({ length: 5 }).map((_, index) => {
+      const recordedWeight = Number((baseWeight + faker.number.float({ min: -2, max: 2, fractionDigits: 1 })).toFixed(1));
       return {
-        food_name: faker.helpers.arrayElement(FOODS),
-        quantity: faker.number.float({ min: 0.5, max: 3, fractionDigits: 1 }),
-        calories,
-        protein: faker.number.float({ min: 2, max: 50, fractionDigits: 1 }),
-        carbs: faker.number.float({ min: 0, max: 80, fractionDigits: 1 }),
-        fat: faker.number.float({ min: 0, max: 40, fractionDigits: 1 }),
+        height,
+        weight: recordedWeight,
+        bmi: calculateBMI(recordedWeight, height),
+        recordedAt: faker.date.recent({ days: 30 * (index + 1) }),
       };
     });
 
-    const totalCalories = items.reduce((sum, it) => sum + it.calories, 0);
+    const mealsData = Array.from({ length: 12 }).map(() => ({
+      name: faker.food.dish(),
+      mealType: faker.helpers.arrayElement(mealTypes),
+      calories: faker.number.int({ min: 200, max: 800 }),
+      protein: faker.number.int({ min: 10, max: 45 }),
+      carbs: faker.number.int({ min: 20, max: 80 }),
+      fat: faker.number.int({ min: 5, max: 30 }),
+      date: faker.date.recent({ days: 10 }),
+    }));
 
-    await prisma.meal.create({
+    await prisma.user.create({
       data: {
-        meal_type: faker.helpers.arrayElement(MEAL_TYPES),
-        date: faker.date.recent({ days: 90 }),
-        total_calories: totalCalories,
-        items: { create: items },
+        email: faker.internet.email({ firstName, lastName }).toLowerCase(),
+        name: `${firstName} ${lastName}`,
+        gender,
+        birthDate: faker.date.birthdate({ min: 20, max: 50, mode: 'age' }),
+        height,
+        weight: baseWeight,
+        bmiRecords: { create: bmiRecordsData },
+        meals: { create: mealsData },
       },
     });
-
-    if ((i + 1) % 25 === 0) console.log(`  ${i + 1}/${NUM_MEALS} meals created`);
   }
 
-  console.log("Seeding complete.");
+  console.log('Seeding complete.');
 }
 
 main()

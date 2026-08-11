@@ -3,5 +3,12 @@
   "private": true,
   "prisma": {
     "seed": "tsx prisma/seed.ts"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
+    "@types/node": "^20.11.0",
+    "prisma": "^5.10.0",
+    "tsx": "^4.23.7",
+    "typescript": "^5.9.5"
   }
 }

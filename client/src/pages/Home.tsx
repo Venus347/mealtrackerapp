@@ -54,6 +54,10 @@ const Home: React.FC = () => {
               My Day Meals
             </IonButton>
 
+            <IonButton expand="block" color="success" onClick={() => history.push('/dashboard')}>
+              Dashboard
+            </IonButton>
+
           </IonCardContent>
         </IonCard>
       </IonContent>

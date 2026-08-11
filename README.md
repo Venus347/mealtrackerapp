@@ -95,3 +95,97 @@ NutriBloom is a full-stack diet planning application that creates personalized m
   * Drafted technical documentation, pull request summaries, and conceptual overviews for database synchronization and seeding workflows.
   * Assisted in structuring synthetic data generation patterns using `@faker-js/faker` within Prisma transaction methods.
 * **Human Oversight & Verification:** All database schema changes, client paths, dependency installations, and seed scripts were reviewed, customized, executed, and validated directly in the local repository environment on branch `ramanpreet`.
+
+---
+
+## Viewing Recharts (Charts)
+
+To see the Recharts visualizations (MacroPieChart, CalorieBarChart, BMITrendChart) locally, run these steps from the project root.
+
+1. Install root and client dependencies:
+
+```bash
+cd /Users/ramanpreetsingh/citytech-ttpr-2026-summer/Fullstack-Smart-Diet-BMI-Tracker
+npm install
+cd client
+npm install
+```
+
+2. Seed the database (ensure `DATABASE_URL` in `.env` is set):
+
+```bash
+cd /Users/ramanpreetsingh/citytech-ttpr-2026-summer/Fullstack-Smart-Diet-BMI-Tracker
+npx prisma db seed
+```
+
+3. Start the backend API (optional — needed if you want server-driven pages/endpoints):
+
+```bash
+cd server
+npm run dev
+```
+
+4. Start the client dev server and open the dashboard:
+
+```bash
+cd client
+npm run dev
+# Open http://localhost:5173 (Vite default) and navigate to /dashboard
+# Or open the app root and click the "Dashboard" button on the Home page
+```
+
+Notes:
+- If the dev server uses a different port, follow the terminal output link (Vite prints the local URL).
+- The dashboard page is at `/dashboard`; the Home page includes a quick navigation button to the Dashboard.
+
+---
+
+## Recharts Display Implementation (What I did)
+
+Branch: `ramanpreet`
+
+- **Files added:**
+  - [client/src/components/charts/MacroPieChart.tsx](client/src/components/charts/MacroPieChart.tsx)
+  - [client/src/components/charts/CalorieBarChart.tsx](client/src/components/charts/CalorieBarChart.tsx)
+  - [client/src/components/charts/BMITrendChart.tsx](client/src/components/charts/BMITrendChart.tsx)
+  - [client/src/pages/Dashboard.tsx](client/src/pages/Dashboard.tsx)
+
+- **Client routing & navigation:**
+  - Added a `/dashboard` route in [client/src/App.tsx](client/src/App.tsx#L1) and a Dashboard button on the Home page ([client/src/pages/Home.tsx](client/src/pages/Home.tsx#L1)).
+
+- **Dependencies:**
+  - Added `recharts` to `client/package.json` and installed it locally.
+
+- **Seed & data flow:**
+  - Created/updated `prisma/seed.ts` to generate dummy users, BMI history and meals.
+  - Verified seed data via `npx prisma db seed` and optionally `npx prisma studio`.
+
+- **How the charts are wired:**
+  - Charts are self-contained React components using static demo data by default (in the chart files) so the Dashboard renders immediately.
+  - To wire charts to real seeded data: implement a fetch to the backend endpoint (e.g. `/day-meals`) from `Dashboard` or a child component, map DB fields to chart data shapes, and pass results as props to the chart components.
+
+---
+
+## AI usage for Recharts and wiring
+
+- **Scope of AI help:**
+  - Generated initial chart component templates (`MacroPieChart`, `CalorieBarChart`, `BMITrendChart`) and suggested layout and props for `recharts` components.
+  - Suggested where to add the `Dashboard` page and how to wire routes in `client/src/App.tsx`.
+  - Helped draft the seed script and the README run instructions.
+
+- **Human verification:**
+  - I reviewed and adapted all generated code, verified file placement, updated `client/package.json`, and tested the dev server wiring locally.
+
+---
+
+## Git push (branch `ramanpreet`)
+
+To push these changes to your branch:
+
+```bash
+git checkout -b ramanpreet
+git add README.md prisma/seed.ts client/src/components/charts client/src/pages/Dashboard.tsx client/src/App.tsx client/src/pages/Home.tsx client/package.json
+git commit -m "Add Recharts dashboard, seed script, and README disclosure"
+git push origin ramanpreet
+```
+
