@@ -17,7 +17,7 @@ const Home: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
+        <IonToolbar color="success"> 
           <IonTitle>NutriBloom</IonTitle>
         </IonToolbar>
       </IonHeader>
@@ -26,30 +26,70 @@ const Home: React.FC = () => {
         <IonCard>
           <IonCardContent>
 
+            {/* Healthy Food Image */}
+
             <img
             src={healthyFood}
             alt="Healthy Food"
             className="hero-image"
             />
 
-            <h1>NutriBloom</h1>
+            {/*Dashbord Title */}
 
-            <h2>Eat Smarter, Not Less</h2>
+            <h1>Today's Nutrion</h1>
+
+            <h2>Track Your Meal</h2>
             
             <IonText>
               <p>
-                Calculate your BMI, track your nutrition, 
-                and receive personalized diet 
-                recommendations to support a healthier lifestyle.
+                Keep track of your meals and monitor 
+                your daily nutrition in one place.
               </p>
             </IonText>
+            /*Nutrition Summary */
+              <div className="nutrition-summary">
 
-            <IonButton expand="block" color="success">
-              Start Assesment 
+              <div className="nutrition-item">
+                <h3>1,250</h3>
+                <p>Calories</p>
+              </div>
+
+               <div className="nutrition-item">
+                <h3>65g</h3>
+                <p>Protein</p>
+               </div>
+
+                <div className="nutrition-item">
+                  <h3>140g</h3>
+                  <p>Carbs</p>
+                </div>
+
+                 <div className="nutrition-item">
+                  <h3>40g</h3>
+                  <p>Fat</p>
+
+                 </div>
+
+            </div>
+
+            {/*Buttons */}
+            <IonButton
+            expand="block"
+            color="success"
+            routerLink="/add-meal"
+            >
+              + Add Meal
+            
             </IonButton>
 
-            <IonButton expand="block" color="success">
-              My Health Dashboard
+            <IonButton
+             expand="block" 
+                      
+             color="success"
+              fill="outline"
+              routerLink="/meal.history"
+              >
+                View Meal History
             </IonButton>
 
           </IonCardContent>
