@@ -19,7 +19,7 @@ const Intake = () => {
     try
     {
       const response = await fetch(
-      'http://localhost:5173/survey',{
+      'http://localhost:3000/survey',{
         method: 'POST',
         headers: {
           'Content-type': 'application/json'

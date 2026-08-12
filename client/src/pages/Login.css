@@ -1,0 +1,86 @@
+.login-container {
+  max-width: 650px;
+  margin: 60px auto;
+  padding: 20px;
+}
+
+.login-heading {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #43a047;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.login-card {
+  background: #1a1d24;
+  border-radius: 20px;
+  padding: 25px;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.35);
+
+  margin-bottom: 30px;
+}
+
+.form-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e0e0e0;
+}
+
+.login-card ion-item {
+  --background: #252932;
+  --border-radius: 12px;
+
+  margin-bottom: 15px;
+
+  border-radius: 12px;
+}
+
+.login-button {
+  --background: #4f8df7;
+  --background-hover: #3e79e0;
+
+  --border-radius: 15px;
+
+  height: 54px;
+
+  font-size: 1.1rem;
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+  margin-top: 20px;
+}
+
+.redirect-button {
+  --background: transparent;
+  --color: #4f8df7;
+
+  --border-color: #4f8df7;
+  --border-style: solid;
+  --border-width: 2px;
+
+  --border-radius: 15px;
+
+  height: 52px;
+
+  font-size: 1rem;
+  font-weight: 700;
+
+  margin: 0 auto;
+
+  display: block;
+
+  transition: 0.3s ease;
+}
+
+.redirect-button ion-icon {
+  font-size: 1.3rem;
+  margin-right: 8px;
+}
+
+.redirect-button:hover {
+  --background: rgba(79, 141, 247, 0.15);
+}
