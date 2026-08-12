@@ -50,7 +50,7 @@ const App: React.FC = () => (
         <Route exact path="/intake">
           <Intake />
         </Route>
-        <Route exact path="/AddMeal">
+        <Route exact path="/meal">
           <AddMeal />        
         </Route>
       </IonRouterOutlet>
