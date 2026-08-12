@@ -1,3 +1,5 @@
+import express from "express";
+import mealRoutes from "./routes/meals.js";
 import type { Request, Response } from "express";
 import dayMealsRouter from './dayMeals.js';
 
@@ -12,6 +14,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Diet API is running!");
 });
 
+app.use("/api", mealRoutes);
 const PORT = 3000;
 
 app.listen(PORT, () => {

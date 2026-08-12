@@ -88,17 +88,21 @@ const AddMeal = () => {
     try
     {
       const response = await fetch(
-      'http://localhost:3000/meals',{
+      'http://localhost:3000/meal',{
         method: 'POST',
         headers: {
           'Content-type': 'application/json'
         },
-        body: JSON.stringify(meals)
+        body: JSON.stringify(meals),
+        credentials: "include",
       });
   
       const data = await response.json();
 
       console.log('Saved',data);
+      console.log(meals);
+      console.log(meals.breakfast[0].date);
+   
 
     } catch (error){
       console.log(error);
