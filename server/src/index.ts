@@ -5,7 +5,6 @@ import dayMealsRouter from './dayMeals.js';
 import intakeRoutes from "./routes/intake.js";
 import signupRoutes from "./routes/sign-up.js";
 
-
 //@ts-ignore
 const app = express();
 
