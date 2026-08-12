@@ -37,6 +37,7 @@ router.get("/meals", async (req, res) => {
     });
   }
 });
+//POST all meals
 
 router.post("/meals", async (req, res) => {
   try {
@@ -97,26 +98,48 @@ router.post("/meals", async (req, res) => {
     });
   }
 });
-// UPDATE a meal
-router.put("/meals/:id", async (req, res) => {
-  try {
-    const id = Number(req.params.id);
 
-    const { mealType, date, totalCalories, items } = req.body;
+
+// UPDATE a meal
+router.put("/meals/:mealId", async (req, res) => {
+  try {
+    const { mealId } = req.params;
+    const { timestamp, items } = req.body;
+
+    const existingMeal = await prisma.meal.findUnique({
+      where: {
+        mealId,
+      },
+    });
+
+    if (!existingMeal) {
+      return res.status(404).json({
+        error: "Meal not found",
+      });
+    }
 
     const meal = await prisma.meal.update({
       where: {
-        id: id,
+        mealId,
       },
       data: {
-        mealType,
-        date: new Date(date),
-        totalCalories,
+        timestamp: timestamp
+          ? new Date(timestamp)
+          : existingMeal.timestamp,
 
-        items: {
-          deleteMany: {},
-          create: items,
-        },
+        ...(items && {
+          items: {
+            deleteMany: {},
+            create: items.map((item: any) => ({
+              protein: Number(item.protein) || 0,
+              carbs: Number(item.carbs) || 0,
+              sugar: Number(item.sugar) || 0,
+              fat: Number(item.fat) || 0,
+              energyKcal: Number(item.calories ?? item.energyKcal) || 0,
+              portion: item.quantity ?? item.portion ?? "",
+            })),
+          },
+        }),
       },
       include: {
         items: true,
@@ -137,20 +160,18 @@ router.put("/meals/:id", async (req, res) => {
 
 
 
-
-
 // DELETE a meal
-router.delete("/meals/:id", async (req, res) => {
+router.delete("/meals/:mealId", async (req, res) => {
   try {
-    const id = Number(req.params.id);
+    const { mealId } = req.params;
 
-    const meal = await prisma.meal.findUnique({
+    const existingMeal = await prisma.meal.findUnique({
       where: {
-        id: id,
+        mealId,
       },
     });
 
-    if (!meal) {
+    if (!existingMeal) {
       return res.status(404).json({
         error: "Meal not found",
       });
@@ -158,7 +179,7 @@ router.delete("/meals/:id", async (req, res) => {
 
     await prisma.meal.delete({
       where: {
-        id: id,
+        mealId,
       },
     });
 
@@ -173,4 +194,3 @@ router.delete("/meals/:id", async (req, res) => {
     });
   }
 });
-export default router;
