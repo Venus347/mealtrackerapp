@@ -88,7 +88,7 @@ const AddMeal = () => {
     try
     {
       const response = await fetch(
-      'http://localhost:5173/meals',{
+      'http://localhost:3000/meals',{
         method: 'POST',
         headers: {
           'Content-type': 'application/json'
