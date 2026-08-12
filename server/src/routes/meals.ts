@@ -24,87 +24,79 @@ router.get("/meals", async (req, res) => {
         items: true,
       },
       orderBy: {
-        date: "desc",
+        timestamp: "desc",
       },
     });
 
     res.json(meals);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ 
-      error: "Failed to get meals" });
+
+    res.status(500).json({
+      error: "Failed to get meals",
+    });
   }
 });
 
-
-
-
-// POST a meal
 router.post("/meals", async (req, res) => {
   try {
-    const { mealType, date, totalCalories, items } = req.body;
+    const { uuid, breakfast, lunch, dinner, snack } = req.body;
 
-    const meal = await prisma.meal.create({
-      data: {
-        mealType,
-        date: new Date(date),
-        totalCalories: totalCalories ?? 0,
+    if (!uuid) {
+      return res.status(400).json({
+        error: "uuid is required",
+      });
+    }
 
-        items: {
-          create: items?.map((item: any) => ({
-            foodName: item.foodName,
-            quantity: item.quantity,
-            calories: item.calories,
-            protein: item.protein,
-            carbs: item.carbs,
-            fat: item.fat,
-          })) ?? [],
+    const mealGroups = [
+      { foods: breakfast },
+      { foods: lunch },
+      { foods: dinner },
+      { foods: snack },
+    ];
+
+    const createdMeals = [];
+
+    for (const group of mealGroups) {
+      if (!group.foods || group.foods.length === 0) {
+        continue;
+      }
+
+      const meal = await prisma.meal.create({
+        data: {
+          uuid,
+          timestamp: group.foods[0].date
+            ? new Date(group.foods[0].date)
+            : new Date(),
+
+          items: {
+            create: group.foods.map((food: any) => ({
+              protein: Number(food.protein) || 0,
+              carbs: Number(food.carbs) || 0,
+              sugar: 0,
+              fat: Number(food.fat) || 0,
+              energyKcal: Number(food.calories) || 0,
+              portion: food.quantity || "",
+            })),
+          },
         },
-      },
-      include: {
-        items: true,
-      },
-    });
+        include: {
+          items: true,
+        },
+      });
 
-    res.status(201).json(meal);
+      createdMeals.push(meal);
+    }
+
+    res.status(201).json(createdMeals);
   } catch (error) {
     console.error(error);
+
     res.status(500).json({
       error: "Failed to create meal",
     });
   }
 });
-
-// GET one meal
-router.get("/meals/:id", async (req, res) => {
-  try {
-    const id = Number(req.params.id);
-
-    const meal = await prisma.meal.findUnique({
-      where: {
-        id: id,
-      },
-      include: {
-        items: true,
-      },
-    });
-
-    if (!meal) {
-      return res.status(404).json({
-        error: "Meal not found",
-      });
-    }
-
-    res.json(meal);
-  } catch (error) {
-    console.error(error);
-
-    res.status(500).json({
-      error: "Failed to get meal",
-    });
-  }
-});
-
 // UPDATE a meal
 router.put("/meals/:id", async (req, res) => {
   try {
@@ -140,6 +132,13 @@ router.put("/meals/:id", async (req, res) => {
     });
   }
 });
+
+
+
+
+
+
+
 // DELETE a meal
 router.delete("/meals/:id", async (req, res) => {
   try {
