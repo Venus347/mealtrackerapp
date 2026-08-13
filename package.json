@@ -5,10 +5,14 @@
     "seed": "tsx prisma/seed.ts"
   },
   "devDependencies": {
-    "@faker-js/faker": "^8.0.2",
-    "@types/node": "^20.11.0",
-    "prisma": "^5.10.0",
-    "tsx": "^4.23.7",
-    "typescript": "^5.9.5"
+    "@prisma/cli": "^3.0.0-beta.30",
+    "@types/pg": "^8.21.0",
+    "dotenv": "^17.4.2",
+    "prisma": "^7.9.1"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.9.1",
+    "@prisma/client": "^7.9.1",
+    "pg": "^8.23.0"
   }
 }
