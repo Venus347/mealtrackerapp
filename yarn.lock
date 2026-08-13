@@ -3,7 +3,7 @@
 # Manual changes might be lost - proceed with caution!
 
 __metadata:
-  version: 9
+  version: 10
   cacheKey: 10c0
 
 "@babel/helper-string-parser@npm:^7.29.7":
@@ -1910,6 +1910,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nutribloom@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "nutribloom@workspace:."
+  dependencies:
+    "@prisma/adapter-pg": "npm:^7.9.1"
+    "@prisma/cli": "npm:^3.0.0-beta.30"
+    "@prisma/client": "npm:^7.9.1"
+    "@types/pg": "npm:^8.21.0"
+    dotenv: "npm:^17.4.2"
+    pg: "npm:^8.23.0"
+    prisma: "npm:^7.9.1"
+  languageName: unknown
+  linkType: soft
+
 "ohash@npm:^2.0.11":
   version: 2.0.11
   resolution: "ohash@npm:2.0.11"
@@ -2270,20 +2284,6 @@ __metadata:
   checksum: 10c0/ae23a0318be809545f091a076818747848f144495491e24e6df5d767f2bad0a1501bbeac34e78b74681d1437ecff0585f593ebfe6c8d49a50e79c5053b962693
   languageName: node
   linkType: hard
-
-"root-workspace-0b6124@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "root-workspace-0b6124@workspace:."
-  dependencies:
-    "@prisma/adapter-pg": "npm:^7.9.1"
-    "@prisma/cli": "npm:^3.0.0-beta.30"
-    "@prisma/client": "npm:^7.9.1"
-    "@types/pg": "npm:^8.21.0"
-    dotenv: "npm:^17.4.2"
-    pg: "npm:^8.23.0"
-    prisma: "npm:^7.9.1"
-  languageName: unknown
-  linkType: soft
 
 "run-applescript@npm:^7.0.0":
   version: 7.1.0
