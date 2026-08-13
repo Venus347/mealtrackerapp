@@ -67,6 +67,7 @@ const Home: React.FC = () => {
                   <p>Carbs</p>
                 </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
                  {/* Start Assessment */}
@@ -77,6 +78,9 @@ const Home: React.FC = () => {
             >
 =======
             </div>
+=======
+
+>>>>>>> 48fd047 (WIP)
             <IonButton expand="block" color="success" onClick={() => history.push('/intake')}>
 >>>>>>> a10240c (WIP)
               Start Assessment
