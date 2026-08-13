@@ -1,9 +1,5 @@
 // @ts-nocheck
 // JC approved nocheck 2026-08-11
-
-import dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
-
 import express from "express";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../../../generated/prisma/client.js";
