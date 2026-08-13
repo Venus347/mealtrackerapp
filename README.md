@@ -50,7 +50,7 @@ This section discloses exactly what I built, which files it lives in, and how AI
 ## AI Usage Disclosure
 
 * **Tools used:** Gemini (Google AI) during initial development on this branch; Claude (Anthropic) for reviewing/reorganizing this README and preparing a presentation of the work.
-* **What AI helped with:**
+* **AI helped with:**
   * Drafting and refactoring the Prisma schema (models, enum, relations, cascade delete, `@map`/`@@map` naming).
   * Reconciling the database design with the final NutriBloom project spec and removing the deprecated user/BMI entities.
   * Structuring the `faker-js`-based seed script and the CLI migration/seeding workflow.
@@ -131,4 +131,4 @@ Branch: `ramanpreet`
   - Charts are self-contained React components using static demo data by default (in the chart files) so the Dashboard renders immediately.
   - To wire charts to real seeded data: implement a fetch to the backend endpoint (e.g. `/day-meals`) from `Dashboard` or a child component, map DB fields to chart data shapes, and pass results as props to the chart components.
 
-*AI disclosure for this Recharts work is covered under the [AI Usage Disclosure](#ai-usage-disclosure) above — Gemini helped scaffold the chart components, the `Dashboard` route, and this section's run instructions; I reviewed, adapted, and tested all of it locally.*
+*AI disclosure for this Recharts work is covered under the [AI Usage Disclosure](#ai-usage-disclosure) above — Gemini helped scaffold the chart components, the `Dashboard` route, and this section's run instructions; I reviewed, adapted, and tested all of it locally.*git 
