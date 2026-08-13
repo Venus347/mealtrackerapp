@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Intake from './pages/Intake';
 import AddMeal from './pages/AddMeal';
 import Login from './pages/Login';
+import Signup from './pages/SignUp';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -35,6 +36,7 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import SignUp from './pages/SignUp';
 
 setupIonicReact();
 
@@ -45,12 +47,22 @@ const App: React.FC = () => (
         <Route exact path="/home">
           <Home />
         </Route>
+
         <Route exact path="/Login">
           <Login />
         </Route>
         <Route exact path="/">
           <Redirect to="/Login" />
         </Route>
+
+        <Route exact path="/SignUp">
+          <SignUp />
+        </Route>
+        <Route exact path="/">
+          <Redirect to="/SignUp" />
+        </Route>
+        
+        
         <Route exact path="/intake">
           <Intake />
         </Route>
