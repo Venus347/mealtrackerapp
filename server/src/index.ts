@@ -1,6 +1,25 @@
 import dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
+
+
+dotenv.config({ path: "../.env" });
+
+const dbUrl = process.env.DATABASE_URL;
+
+console.log("DATABASE_URL exists:", !!dbUrl);
+console.log("DATABASE_URL type:", typeof dbUrl);
+
+if (dbUrl) {
+  const url = new URL(dbUrl);
+
+  console.log("DB user:", url.username);
+  console.log("DB host:", url.hostname);
+  console.log("DB port:", url.port);
+  console.log("DB name:", url.pathname);
+  console.log("Password exists:", url.password.length > 0);
+}
+
 import express from "express";
 import mealRoutes from "./routes/meals.js";
 import type { Request, Response } from "express";

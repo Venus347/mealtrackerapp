@@ -1,6 +1,7 @@
 // @ts-nocheck
 // JC approved nocheck 2026-08-11
 import dotenv from "dotenv";
+
 dotenv.config({ path: "../.env" });
 
 import express from "express";
@@ -14,7 +15,6 @@ const adapter = new PrismaPg({
 });
 
 const prisma = new PrismaClient({ adapter });
-
 
 // CREATE USER
 router.post("/sign-up", async (req, res) => {
