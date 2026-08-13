@@ -18,35 +18,49 @@ const prisma = new PrismaClient({ adapter });
 // POST sign-up
 router.post("/sign-up", async (req, res) => {
   try {
-    const { username, firstName, lastName } = req.body;
+    const {
+      email,
+      password,
+      username,
+      firstName,
+      lastName,
+    } = req.body;
 
-    if (!username || !firstName || !lastName) {
+    if (!email || !password) {
       return res.status(400).json({
-        error: "username, firstName, and lastName are required",
+        error: "Email and password are required",
       });
     }
 
     const existingUser = await prisma.user.findUnique({
       where: {
-        username,
+        email,
       },
     });
 
     if (existingUser) {
       return res.status(409).json({
-        error: "Username already exists",
+        error: "Email already exists",
       });
     }
 
     const user = await prisma.user.create({
       data: {
+        email,
+        password,
         username,
         firstName,
         lastName,
       },
     });
 
-    res.status(201).json(user);
+    res.status(201).json({
+      uuid: user.uuid,
+      email: user.email,
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+    });
   } catch (error) {
     console.error(error);
 
