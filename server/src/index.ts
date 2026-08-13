@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
+
 import express from "express";
 import mealRoutes from "./routes/meals.js";
 import type { Request, Response } from "express";
