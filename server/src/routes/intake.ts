@@ -9,7 +9,34 @@ import express from "express";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../../../generated/prisma/client.js";
 
-const router = express.Router();
+import jwt from "jsonwebtoken";
+import passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
+import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
+
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET){
+  throw new Error("JWT SECRET not set. copy to .env first");
+}
+passport.use(
+  new JwtStrategy(
+    {
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: JWT_SECRET,
+    },
+    async (payload, done) => {
+      console.log("JWT STRATEGY RAN");
+      console.log("PAYLOAD:", payload);
+
+      const user = await prisma.user.findUnique({ where: { id: payload.sub } });
+      return done(null, user ?? false);
+      console.log("USER:", user);
+    }
+  )
+);
+
+
+const intakeRouter = express.Router();
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL!,
@@ -17,33 +44,30 @@ const adapter = new PrismaPg({
 
 const prisma = new PrismaClient({ adapter });
 
+const asyncHandler = (fn) => (req, res, next) => fn(req, res, next).catch(next);
 
-// CREATE INTAKE
-router.post("/intake", async (req, res) => {
+// CREATE INTAKE, /intake
+intakeRouter.post("/survey", passport.authenticate("jwt", { session: false }), async (req, res) => {
   try {
     const {
-      uuid,
       age,
-      height,
+      feet,
+      inches,
       weight,
       sex,
       bmi,
-      activityFrequency,
-      activityType,
-      fitnessGoal,
+      atype,
+      afreq,
+      goal,
     } = req.body;
 
-    if (!uuid) {
+    //const user = await prisma.user.findUnique({ where: { id: payload.sub } });
+    const user = req.user;
+    if (!user.id) {
       return res.status(400).json({
         error: "uuid is required",
       });
     }
-
-    const user = await prisma.user.findUnique({
-      where: {
-        uuid,
-      },
-    });
 
     if (!user) {
       return res.status(404).json({
@@ -53,7 +77,7 @@ router.post("/intake", async (req, res) => {
 
     const existingInfo = await prisma.userInfo.findUnique({
       where: {
-        uuid,
+        userId: user.id
       },
     });
 
@@ -65,15 +89,16 @@ router.post("/intake", async (req, res) => {
 
     const intake = await prisma.userInfo.create({
       data: {
-        uuid,
+        userId: user.id,
         age: Number(age),
-        height: Number(height),
+        heightFeet: Number(feet),
+        heightInches: Number(inches),
         weight: Number(weight),
-        sex,
-        bmi: Number(bmi),
-        activityFrequency,
-        activityType,
-        fitnessGoal,
+        sex: sex,
+        bmi: ((Number(feet)*12 + Number(inches))/Number(weight))^2,
+        activityFrequency: afreq,
+        activityType: atype,
+        fitnessGoal: goal,
       },
     });
 
@@ -89,7 +114,7 @@ router.post("/intake", async (req, res) => {
 
 
 // GET ALL INTAKE
-router.get("/intake", async (req, res) => {
+intakeRouter.get("/intake", async (req, res) => {
   try {
     const intake = await prisma.userInfo.findMany();
 
@@ -105,7 +130,7 @@ router.get("/intake", async (req, res) => {
 
 
 // GET ONE USER'S INTAKE
-router.get("/intake/:uuid", async (req, res) => {
+intakeRouter.get("/intake/:uuid", async (req, res) => {
   try {
     const { uuid } = req.params;
 
@@ -133,7 +158,7 @@ router.get("/intake/:uuid", async (req, res) => {
 
 
 // UPDATE INTAKE
-router.put("/intake/:uuid", async (req, res) => {
+intakeRouter.put("/intake/:uuid", async (req, res) => {
   try {
     const { uuid } = req.params;
 
@@ -188,7 +213,7 @@ router.put("/intake/:uuid", async (req, res) => {
 
 
 // DELETE INTAKE
-router.delete("/intake/:uuid", async (req, res) => {
+intakeRouter.delete("/intake/:uuid", async (req, res) => {
   try {
     const { uuid } = req.params;
 
@@ -222,5 +247,4 @@ router.delete("/intake/:uuid", async (req, res) => {
   }
 });
 
-
-export default router;
+export default intakeRouter;

@@ -20,6 +20,7 @@ import {
 
   IonList
 } from '@ionic/react';
+import useAuthStore from '../store/useAuthStore';
 
 type Food = {
     foodName: string;
@@ -29,10 +30,11 @@ type Food = {
     protein: string;
     carbs: string;
     fat: string;
+    mealType: string;
 };
 
 const AddMeal = () => {
-
+    const token = useAuthStore((state) => state.token);
     const emptyFood: Food = {
         foodName: '',
         date: '',
@@ -40,7 +42,8 @@ const AddMeal = () => {
         calories:  '',
         protein:  '',
         carbs:  '',
-        fat:  ''
+        fat:  '',
+        mealType: ''
     };
 
     const [meals, setMeals] = useState<{
@@ -57,7 +60,7 @@ const AddMeal = () => {
 
     const addFood = (mealType: keyof typeof meals) => {
         const updatedMeals = {...meals};
-
+        const x = mealType;
         updatedMeals[mealType] = [
             ...updatedMeals[mealType],
             {...emptyFood}
@@ -91,7 +94,8 @@ const AddMeal = () => {
       'http://localhost:3000/meal',{
         method: 'POST',
         headers: {
-          'Content-type': 'application/json'
+          'Content-type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(meals),
         credentials: "include",
@@ -102,10 +106,11 @@ const AddMeal = () => {
       console.log('Saved',data);
       console.log(meals);
       console.log(meals.breakfast[0].date);
-   
 
     } catch (error){
       console.log(error);
+      console.log(meals);
+      console.log(token);
     }
   };
 
