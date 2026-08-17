@@ -1,4 +1,6 @@
 // prisma/seed.ts
+
+
 import { PrismaClient} from "../generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { faker } from "@faker-js/faker";
