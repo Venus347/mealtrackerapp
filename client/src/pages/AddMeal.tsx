@@ -30,7 +30,7 @@ type Food = {
     protein: string;
     carbs: string;
     fat: string;
-    mealType: string;
+    //mealType: string;
 };
 
 const AddMeal = () => {
@@ -43,7 +43,7 @@ const AddMeal = () => {
         protein:  '',
         carbs:  '',
         fat:  '',
-        mealType: ''
+        //mealType: ''
     };
 
     const [meals, setMeals] = useState<{
@@ -90,6 +90,13 @@ const AddMeal = () => {
     const submitMeals = async () => {
     try
     {
+      const mealsPayload = (Object.keys(meals) as (keyof typeof meals)[]).flatMap(
+        (mealType) =>
+          meals[mealType].map((food) => ({
+            ...food,
+            mealType
+          })))
+
       const response = await fetch(
       'http://localhost:3000/meal',{
         method: 'POST',
@@ -106,6 +113,7 @@ const AddMeal = () => {
       console.log('Saved',data);
       console.log(meals);
       console.log(meals.breakfast[0].date);
+      console.log(mealsPayload);
 
     } catch (error){
       console.log(error);
@@ -190,7 +198,7 @@ const AddMeal = () => {
                                         updateFood(
                                             mealType,
                                             index,
-                                            'quantity',
+                                            'calories',
                                             e.detail.value ?? ''
                                         )
                                     }

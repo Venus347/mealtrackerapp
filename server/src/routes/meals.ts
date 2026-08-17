@@ -69,6 +69,8 @@ mealRouter.get("/meals", async (req, res) => {
 
 // POST a meal
 mealRouter.post("/meal", passport.authenticate("jwt", { session: false }), async (req, res) => {
+ 
+
   console.log(req.body.breakfast[0]);
   try {
     const { foodName, date, quantity, calories, protein, carbs, fat} = req.body.breakfast[0];
